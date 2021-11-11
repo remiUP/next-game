@@ -1,10 +1,28 @@
 import Link from 'next/link'
+import Popup from '../components/popup'
+import db from '../components/firebase/firebaseClient'
+import { useEffect } from 'react'
+import { onSnapshot, doc} from 'firebase/firestore'
+
+
+
 
 const Home = () => {
 
-	const test = () =>{
-		
+	const newBracket = async () =>{
+		const res = await fetch("/api/new");
+		const data = await res.json();
+		if(!data){
+			alert("Unable to create a new bracket");
+		}
+		console.log(data)
 	}
+
+	useEffect(()=>{
+		onSnapshot(doc(db,"brackets","test"),(snapshot)=>{
+			console.log(snapshot.data());
+		});
+	})
 
 	return (
 		<div className="px-8 mt-10">
@@ -16,7 +34,7 @@ const Home = () => {
 			<div className="flex h-96 flex-col justify-center mt-5 items-center">
 				<div className="w-full max-w-xs">
 					<div className="flex justify-center">
-						<button onClick={() => alert()} className="bg-green-500 hover:bg-green-400 text-white text-4xl py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded my-5">
+						<button onClick={newBracket} className="bg-green-500 hover:bg-green-400 text-white text-4xl py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded my-5">
 							New Bracket
 						</button>
 					</div>
