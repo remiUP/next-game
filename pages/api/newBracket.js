@@ -1,27 +1,30 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
 
-const KEY = "lqdsfjsdlfkh867dsfjkhg56gsdfhjg567"
-
-
 async function createBracket(){
 	const res = await db.collection("brackets").add({
-		test: admin.firestore.FieldValue.serverTimestamp()
+		created: admin.firestore.FieldValue.serverTimestamp(),
+		players: [],
+		history: []
 	})
 	return res.id;
 }
 
 export default async function handler(req, res) {
-	const id = await createBracket();
-	console.log(id)
+
+	if (req.method !== 'POST') {
+		res.status(405).send({ message: 'Only POST requests allowed' })
+		return
+	  }
+	const data = req.body;
+	const id = 1// await createBracket();
 	res.status(200).json(
-		{ 
+		{
 			token: jwt.sign({
 				id : id,
-				name : "test",
+				usename : data.username,
 				admin : true
-			},KEY),
-			id: id
+			},process.env.JWT_SECRET),
 		}
 	)
-  }
+}
