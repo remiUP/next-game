@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Popup from '../components/popup'
 import db from '../components/firebase/firebaseClient'
 import { useEffect, useState } from 'react'
 import { onSnapshot, doc} from 'firebase/firestore'
