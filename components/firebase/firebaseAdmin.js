@@ -10,6 +10,9 @@ if (!admin.apps.length) {
 	} catch (error) {
 		console.log('Firebase admin initialization error', error.stack);
 	}
+	
 }
 
-export default admin.firestore();
+const db = admin.firestore();
+
+export { db, admin };

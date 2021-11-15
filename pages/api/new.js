@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
-import db  from "../../components/firebase/firebaseAdmin"
-import firebase from "firebase/app"
+import { db , admin }  from "../../components/firebase/firebaseAdmin"
 
 const KEY = "lqdsfjsdlfkh867dsfjkhg56gsdfhjg567"
-"firebase.database.ServerValue.TIMESTAMP"
+
+
 async function createBracket(){
 	const res = await db.collection("brackets").add({
-		test: firebase.firestore.FieldValue.serverTimestamp()
+		test: admin.firestore.FieldValue.serverTimestamp()
 	})
 	return res.id;
 }

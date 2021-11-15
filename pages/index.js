@@ -18,11 +18,15 @@ const Home = () => {
 		console.log(data)
 	}
 
-	useEffect(()=>{
-		onSnapshot(doc(db,"brackets","test"),(snapshot)=>{
-			console.log(snapshot.data());
-		});
-	})
+	const joinBracket = async () =>{
+		
+	}
+
+	// useEffect(()=>{
+	// 	onSnapshot(doc(db,"brackets","test"),(snapshot)=>{
+	// 		console.log(snapshot.data());
+	// 	});
+	// })
 
 	return (
 		<div className="px-8 mt-10">
@@ -39,7 +43,7 @@ const Home = () => {
 						</button>
 					</div>
 					<div className="flex justify-center">
-						<button className="bg-blue-500 hover:bg-blue-400 text-white text-4xl py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded my-5">
+						<button onClick = {joinBracket} className="bg-blue-500 hover:bg-blue-400 text-white text-4xl py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded my-5">
 							Join Bracket
 						</button>
 					</div>
