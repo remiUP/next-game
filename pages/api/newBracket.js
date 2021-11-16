@@ -17,12 +17,12 @@ export default async function handler(req, res) {
 		return
 	  }
 	const data = req.body;
-	const id = 1// await createBracket();
+	const id = await createBracket();
 	res.status(200).json(
 		{
 			token: jwt.sign({
 				id : id,
-				usename : data.username,
+				username : data.username,
 				admin : true
 			},process.env.JWT_SECRET),
 		}

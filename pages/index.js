@@ -2,7 +2,7 @@ import Link from 'next/link'
 import db from '../components/firebase/firebaseClient'
 import { useEffect, useState } from 'react'
 import { onSnapshot, doc} from 'firebase/firestore'
-
+import { useRouter } from 'next/router'
 
 
 
@@ -10,6 +10,14 @@ const Home = () => {
 	
 	const [username, setUsername] = useState("");
 	const [id, setId] = useState("");
+	const router = useRouter();
+
+	useEffect(() => {
+		const token = localStorage.getItem("next-game-token");
+		if (token){
+			router.push('/bracket');
+		}
+	}, [])
 
 	const newBracket = async () =>{
 		if (! username){
@@ -34,12 +42,49 @@ const Home = () => {
 		else{
 			console.log(token);
 			localStorage.setItem("next-game-token",token)
+			router.push('/bracket');
 		}
 
 	}
 
 	const joinBracket = async () =>{
-		
+		if (! username){
+			alert("Please enter a username");
+			return
+		}
+		if (! id){
+			alert("Please enter a bracket id");
+			return
+		}
+		const res = await fetch("/api/joinBracket",{
+			method : 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			  },
+			body: JSON.stringify({
+				username : username,
+				id : id
+			})
+		});
+		console.log(res.status);
+		if (res.status == 404){
+			alert("Incorrect bracket ID");
+			return
+		} 
+		if (res.status == 403){
+			alert("This username is already taken, please choose another one");
+			return
+		}
+		const data = await res.json();
+		const token = data.token
+		if(!token){
+			alert("Unable to create a new bracket");
+		}
+		else{
+			console.log(token);
+			localStorage.setItem("next-game-token",token)
+			router.push('/bracket');
+		}
 	}
 
 	const usernameChange = (event) => {
@@ -47,7 +92,7 @@ const Home = () => {
 	}
 
 	const idChange = (event) => {
-		setId(event.taget.value)
+		setId(event.target.value)
 	}
 
 	// useEffect(()=>{

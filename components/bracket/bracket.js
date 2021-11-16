@@ -19,12 +19,22 @@ const getNextColumn = (previousMatches, history) => {
 	previousMatches.forEach((match, index) => {
 		let next = "";
 		if (match.length == 2){
-			const result = history[match[0]+match[1]];
-			if( result ){
-				next = result;
+			const defWin1 = history[match[0]+"all"];
+			const defWin2 = history[match[1]+"all"];
+			if (defWin1){
+				next = match[1];
+			}
+			else if (defWin2){
+				next = match[0]
 			}
 			else{
-				next = "TBD"
+				const result = history[match[0]+match[1]];
+				if( result ){
+					next = result;
+				}
+				else{
+					next = "TBD"
+				}
 			}
 		}
 		else if (match.length == 1){
@@ -45,12 +55,11 @@ const getNextColumn = (previousMatches, history) => {
 
 const Bracket = ({players, history}) => {
 	const firstMatches = getFirstColumn(players);
-	console.log(firstMatches)
 	const numberColumn = Math.ceil(Math.log2(players.length))-1;
 	var previousMatches = firstMatches;
 	return <div className="flex">
 		<Column matches={firstMatches} history={history}/>
-		{[...Array(numberColumn)].map(() => {
+		{numberColumn < 0 ? "" : [...Array(numberColumn)].map(() => {
 			previousMatches = getNextColumn(previousMatches,history);
 			return <Column matches={previousMatches} history={history} />;
 		})}
