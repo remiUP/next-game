@@ -5,7 +5,7 @@ async function createBracket(){
 	const res = await db.collection("brackets").add({
 		created: admin.firestore.FieldValue.serverTimestamp(),
 		players: [],
-		history: []
+		history: {}
 	})
 	return res.id;
 }
