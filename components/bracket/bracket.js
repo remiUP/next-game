@@ -57,7 +57,7 @@ const Bracket = ({players, history}) => {
 	const firstMatches = getFirstColumn(players);
 	const numberColumn = Math.ceil(Math.log2(players.length))-1;
 	var previousMatches = firstMatches;
-	return <div className="flex">
+	return <div className="flex flex-col md:flex-row">
 		<Column matches={firstMatches} history={history}/>
 		{numberColumn < 0 ? "" : [...Array(numberColumn)].map(() => {
 			previousMatches = getNextColumn(previousMatches,history);
