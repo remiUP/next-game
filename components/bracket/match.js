@@ -1,21 +1,11 @@
+import Team from './team'
 
 const Match = (props) => {
-	if (props.players.length == 1){
-		var visibility = " invisible";
-	}
-	else{
-		var visibility = " visible"
-	}
-	
-
+	const clickable = props.win == 0 && !props.players.includes('TBD');
 	return (
-	<div className={"font-semibold flex flex-col w-48" + visibility}>
-		<div className={`text-lg mb-2 p-2 flex flex-row justify-between ${props.win == 1 ? 'bg-green-500' : ( props.win == 2 ? 'bg-gray-500' : 'bg-gray-200')}`}>
-			<h1>{props.players[0] || "empty"}</h1>
-		</div>
-		<div className={`text-lg p-2 flex flex-row justify-between ${props.win == 2 ? 'bg-green-500' : ( props.win == 1 ? 'bg-gray-500' : 'bg-gray-200')}`}>
-			<h1>{props.players[1] || "empty"}</h1>
-		</div>
+	<div className={"font-semibold flex flex-col w-48" + ` ${props.players.length == 1 ? 'hidden md:invisible md:block' : 'visible'}`}>
+		<Team state={props.win == 1 ? "won" : (props.win == 2 ? "lost" : "")} clickable={clickable} callback={props.upperCallback} player={props.players[0] || "empty"}/>
+		<Team state={props.win == 2 ? "won" : (props.win == 1 ? "lost" : "")} clickable={clickable} callback={props.lowerCallback} player={props.players[1] || "empty"}/>
 	</div>
 	);
 }

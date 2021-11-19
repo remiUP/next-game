@@ -15,7 +15,7 @@ const Column = ({matches, history}) => {
 						}
 					}
 				}
-				return <Match players={match} />
+				return <Match players={match} win={0}/>
 			})}
 		</div>
 	);
