@@ -10,6 +10,7 @@ const Home = () => {
 	
 	const [username, setUsername] = useState("");
 	const [id, setId] = useState("");
+	const [alsoPlayer, setAlsoPlayer] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -20,7 +21,7 @@ const Home = () => {
 	}, [])
 
 	const newBracket = async () =>{
-		if (! username){
+		if (! username && alsoPlayer){
 			alert("Please enter a username");
 			return
 		}
@@ -30,7 +31,8 @@ const Home = () => {
 				'Content-Type': 'application/json',
 			  },
 			body: JSON.stringify({
-				username : username
+				username : username,
+				isPlayer : true
 			})
 		});
 
@@ -95,6 +97,10 @@ const Home = () => {
 		setId(event.target.value)
 	}
 
+	const alsoPlayerChange = (event) => {
+		setAlsoPlayer(event.target.checked);
+	}
+
 	// useEffect(()=>{
 	// 	onSnapshot(doc(db,"brackets","test"),(snapshot)=>{
 	// 		console.log(snapshot.data());
@@ -110,9 +116,7 @@ const Home = () => {
 			<h1 className="md:text-9xl text-gray-100 mt-5 text-center text-6xl">Next Game !</h1>
 			<div className="flex h-96 flex-col justify-center mt-5 items-center">
 				<div className="w-full max-w-xs">
-					<div className="flex justify-center">
-						<input onChange={usernameChange} type="text" placeholder="Username" className="m-4 shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline my-5" />
-					</div>
+					
 					<div className="flex justify-center">
 						<button onClick={newBracket} className="bg-green-500 hover:bg-green-400 text-white text-4xl py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded my-5">
 							New Bracket
@@ -122,6 +126,13 @@ const Home = () => {
 						<button onClick = {joinBracket} className="bg-blue-500 hover:bg-blue-400 text-white text-4xl py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded my-5">
 							Join Bracket
 						</button>
+					</div>
+					<div className="flex justify-center">
+						<input type="checkbox" onChange={alsoPlayerChange} className="align-middle mt-1"/>
+						<span className="text-gray-100 ml-2">Also join as a player</span>
+					</div>
+					<div className="flex justify-center">
+						<input onChange={usernameChange} type="text" placeholder="Username" className="m-4 shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline my-5" />
 					</div>
 					<div className="flex justify-center">
 						<input onChange={idChange} type="text" placeholder="Room code" className="shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline my-5" />

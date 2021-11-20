@@ -16,6 +16,11 @@ export default async function handler(req, res) {
 		var docRef = db.collection("brackets").doc(payload.id);
 		return docRef.get().then( (doc)=>{
 			if (doc.exists){
+				if (payload.admin){
+					docRef.delete();
+					res.status(200).send();
+					return
+				}
 				const docData = doc.data();
 				if (docData.history){
 					docRef.update({

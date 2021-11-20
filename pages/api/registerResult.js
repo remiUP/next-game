@@ -1,29 +1,35 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
 
-async function addResult(id, res){
-	const res = await db.collection("brackets").doc(id).update(
-		res
-	);
-	return res;
-}
-
 export default async function handler(req, res) {
-
 	if (req.method !== 'POST') {
 		res.status(405).send({ message: 'Only POST requests allowed' })
 		return
 	}
-
 	const data = req.body;
-	const id = 1// await createBracket();
-	res.status(200).json(
-		{
-			token: jwt.sign({
-				id : id,
-				usename : data.username,
-				admin : true
-			},process.env.JWT_SECRET),
+	
+	try{
+		const payload = jwt.verify(data.token, process.env.JWT_SECRET);
+		console.log(req.body);
+		if (!payload.admin){
+			res.status(401).send({ message: "Invalid Token" });
+			console.log("Not admin");
+			return
 		}
-	)
+		var docRef = db.collection("brackets").doc(payload.id);
+		return docRef.get().then( (doc)=>{
+			if (doc.exists){
+				res.status(200).send();
+				return
+			}
+			else{
+				res.status(404).send({ message: 'Bracket does not exist anymore' })
+				return
+			}
+		});
+	} catch (e){
+		res.status(401).send({ message: "Invalid Token" });
+		return
+	}
 }
+
