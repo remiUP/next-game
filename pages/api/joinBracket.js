@@ -16,6 +16,10 @@ export default async function handler(req, res) {
 	return docRef.get().then( (doc)=>{
 		if (doc.exists){
 			const docData = doc.data();
+			if (docData.history){
+				res.status(401).send({message : 'Game has already started'})
+				return
+			}
 			if (docData.players.includes(data.username)){
 				res.status(403).send({ message: 'Username already taken' })
 				return
