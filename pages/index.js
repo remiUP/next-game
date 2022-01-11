@@ -33,7 +33,7 @@ const Home = () => {
 			  },
 			body: JSON.stringify({
 				username : username,
-				isPlayer : true
+				isPlayer : alsoPlayer
 			})
 		});
 
