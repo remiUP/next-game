@@ -135,7 +135,7 @@ const Home = () => {
 				<title>Simple bracket creation tool</title>
 			</head>
 
-			<h1 className="md:text-9xl text-gray-100 mt-5 text-center text-6xl pt-8">Next Game !</h1>
+			<h1 className="md:text-9xl text-gray-100 mt-5 text-center text-6xl pt-8">Next Game ! (test)</h1>
 			<div className="flex h-96 flex-col justify-center items-center flex-1">
 				<div className="w-full max-w-xs">
 					
