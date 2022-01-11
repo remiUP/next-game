@@ -30,9 +30,9 @@ const Match = (props) => {
 	}
 	
 	return (
-		<div className={"font-bold flex flex-col w-48" + ` ${props.players.length == 1 ? 'hidden md:invisible md:block' : 'visible'} mb-3 md:mb-0`}>
+		<div className={"font-bold flex flex-col w-48 border-l-4 border-blue-700 " + ` ${props.players.length == 1 ? 'hidden md:invisible md:block' : 'visible'} mb-3 md:mb-4`}>
 			<Team state={props.win == 1 ? "won" : (props.win == 2 ? "lost" : "")} clickable={clickable} callback={() => registerResult(0)} player={props.players[0] || "⠀"}/>
-			<Team state={props.win == 2 ? "won" : (props.win == 1 ? "lost" : "")} clickable={clickable} callback={() => registerResult(1)} player={props.players[1] || "⠀"}/>
+			<Team state={props.win == 2 ? "won" : (props.win == 1 ? "lost" : "")} clickable={clickable} callback={() => registerResult(1)} player={props.players[1] || "⠀"} bottom={true}/>
 		</div>
 	);
 }

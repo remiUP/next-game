@@ -48,7 +48,7 @@ const bracket_page = () => {
 		router.push('/');
 	}
 
-	return <div className="flex w-screen h-screen md:justify-between md:flex-row flex-col">
+	return <div className="flex w-screen min-h-screen md:justify-between md:flex-row flex-col">
 		<div>
 			<Bracket players={players} history={history}/>
 		</div>
