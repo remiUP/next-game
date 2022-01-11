@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
 import firebaseClient from "../../components/firebase/firebaseClient";
-
+import isEmpty from '../../utils/isEmpty'
 
 export default async function handler(req, res) {
 	if (req.method !== 'POST') {
@@ -22,22 +22,27 @@ export default async function handler(req, res) {
 					return
 				}
 				const docData = doc.data();
-				if (docData.history){
+				console.log(docData);
+				if (!isEmpty(docData.history)){
 					docRef.update({
 						[`history.${payload.username + "all"}`]: payload.username
 					});
 					res.status(200).send();
+					console.log(`${payload.username} left while the tournament is ongoing : default lose`)
 					return
 				}
 				else{
 					docRef.update({
 						players: admin.firestore.FieldValue.arrayRemove(payload.username)
 					});
+					console.log(`${payload.username} left before tournament start : removed from players`)
 					res.status(200).send();
+					return
 				}
 			}
 			else{
 				res.status(404).send({ message: 'Bracket does not exist anymore' })
+				return
 			}
 		});
 	} catch (e){

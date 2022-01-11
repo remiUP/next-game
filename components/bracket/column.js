@@ -1,13 +1,8 @@
 import Match from './match'
 import { useState, useRef, useEffect } from 'react';
 import BracketLine from './bracketLine';
-import useWindowDimensions from './useWindowDimensions';
 
 const Column = ({matches, history}) => {
-	//const { height, width } = useWindowDimensions();
-	// const height = window.innerHeight || 1000;
-	// console.log(matches);
-	// const bHeight = height/(2*matches.length);
 	const listRef = useRef(null);
 	const [columnHeight, setColumnHeight] = useState(0);
 

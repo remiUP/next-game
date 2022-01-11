@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
 import firebaseClient from "../../components/firebase/firebaseClient";
-
+import isEmpty from '../../utils/isEmpty'
 
 export default async function handler(req, res) {
 	if (req.method !== 'POST') {
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 	return docRef.get().then( (doc)=>{
 		if (doc.exists){
 			const docData = doc.data();
-			if (docData.history){
+			if (!isEmpty(docData.history)){
 				res.status(401).send({message : 'Game has already started'})
 				return
 			}
