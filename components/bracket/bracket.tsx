@@ -1,10 +1,13 @@
 import db from '../firebase/firebaseClient'
 import { onSnapshot, doc} from 'firebase/firestore'
 import Column from './column'
+import { Matches } from '../../types/matches'
+import { History } from '../../types/history'
 
-const getFirstColumn = (players) => {
-	const nearest = Math.pow(2,Math.ceil(Math.log2(players.length)))/2;
-	const matches = [];
+
+const getFirstColumn = (players: string[]): Matches => {
+	const nearest: number = Math.pow(2,Math.ceil(Math.log2(players.length)))/2;
+	const matches: Matches = [];
 	for (var i = 0; i < nearest; i++){
 		matches.push([players[i]]);
 	}
@@ -14,13 +17,13 @@ const getFirstColumn = (players) => {
 	return matches
 }
 
-const getNextColumn = (previousMatches, history) => {
-	var nextMatches = []
+const getNextColumn = (previousMatches: Matches, history: History): Matches => {
+	var nextMatches: Matches = []
 	previousMatches.forEach((match, index) => {
-		let next = "";
+		let next: string = "";
 		if (match.length == 2){
-			const defWin1 = history[match[0]+"all"];
-			const defWin2 = history[match[1]+"all"];
+			const defWin1: string = history[match[0]+"all"];
+			const defWin2: string = history[match[1]+"all"];
 			if (defWin1){
 				next = match[1];
 			}
@@ -28,7 +31,7 @@ const getNextColumn = (previousMatches, history) => {
 				next = match[0]
 			}
 			else{
-				const result = history[match[0]+match[1]];
+				const result: string = history[match[0]+match[1]];
 				if( result ){
 					next = result;
 				}
@@ -53,10 +56,15 @@ const getNextColumn = (previousMatches, history) => {
 	return nextMatches;
 }
 
-const Bracket = ({players, history}) => {
-	const firstMatches = getFirstColumn(players);
-	const numberColumn = Math.ceil(Math.log2(players.length))-1;
-	var previousMatches = firstMatches;
+interface Props {
+	players: string[],
+	history: History
+}
+
+const Bracket: React.FC<Props>= ({players, history}) => {
+	const firstMatches: Matches = getFirstColumn(players);
+	const numberColumn: number = Math.ceil(Math.log2(players.length))-1;
+	var previousMatches: Matches = firstMatches;
 	return <div className="flex flex-col md:flex-row h-full">
 		<Column matches={firstMatches} history={history}/>
 		{numberColumn < 0 ? "" : [...Array(numberColumn)].map(() => {

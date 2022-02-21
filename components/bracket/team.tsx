@@ -1,6 +1,12 @@
+interface Props {
+	player: string,
+	state: string,
+	clickable: boolean,
+	bottom?: boolean,
+	callback: () => void
+}
 
-const Team = (props) => {
-	
+const Team = (props: Props): JSX.Element => {
 	return (
 		<div className={`text-lg p-2 flex flex-row justify-between ${props.bottom ? '' :'mb-2'}
 						${props.state == "won" ? 'bg-green-500' : ( props.state == "lost" ? 'bg-gray-500' : 'bg-gray-200')}

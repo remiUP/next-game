@@ -1,10 +1,15 @@
 import Team from './team'
 import db from '../firebase/firebaseClient'
 import { onSnapshot, doc} from 'firebase/firestore'
+import router from 'next/router';
 
 
+interface Props {
+	players: string[],
+	win: number
+}
 
-const Match = (props) => {
+const Match: React.FC<Props> = (props) => {
 	const token = localStorage.getItem("next-game-token");
 	const admin = JSON.parse(atob(token.split('.')[1])).admin
 	const clickable = props.win == 0 && !props.players.includes('TBD') && !props.players.includes(undefined) && admin;

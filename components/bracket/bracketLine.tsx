@@ -1,4 +1,9 @@
-const BracketLine = ({ reversed , hidden }) => {
+interface Props {
+	reversed: boolean,
+	hidden: boolean
+}
+
+const BracketLine: React.FC<Props> = ({ reversed , hidden }) => {
 	return (
 	<div className="flex flex-row h-full w-full">
 		<div className={`w-full h-full border-solid border-r-2 border-white 

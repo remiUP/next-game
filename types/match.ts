@@ -1,0 +1,1 @@
+export interface Match extends Array<string> {}
