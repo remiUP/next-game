@@ -56,7 +56,7 @@ const bracket_page = () => {
 	}
 
 	return (
-	<div>
+	<div className='bg-gray-800'>
 		<Navbar>
 			<h1 className='text-white text-4xl px-6'>Next game !</h1>
 			<div className='flex flex-row items-center'>
@@ -64,10 +64,11 @@ const bracket_page = () => {
 				<Button callback={leaveBracket} color='red' text='Leave'/>
 			</div>
 		</Navbar>
-		<div className='flex flex-row pt-24'>
-			<Sidebar className={`${admin ? '' : 'hidden'} fixed`}>
-				<h1 className={`${ admin ? '' : 'hidden' } font-bold text-white p-2 mx-5 text-center border-green-500 border-2`}>You are the admin</h1>
-			</Sidebar>
+		<div className='flex flex-row pt-24 bg-gray-800'>
+			{admin&&
+			<Sidebar>
+				<h1 className={" font-bold text-white p-2 mx-5 text-center border-green-500 border-2"}>You are the admin</h1>
+			</Sidebar>}
 			<div className="flex w-screen min-h-screen md:justify-between md:flex-row flex-col mt-4">
 				<div>
 					<Bracket players={players} history={history}/>

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
-import firebaseClient from "../../components/firebase/firebaseClient";
 import isEmpty from '../../utils/isEmpty'
 
 export default async function handler(req, res) {
