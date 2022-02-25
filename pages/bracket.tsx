@@ -55,6 +55,30 @@ const bracket_page = () => {
 		router.push('/');
 	}
 
+	const resetBracket = async () => {
+		console.log("Reseting bracket");
+		const res = await fetch("/api/resetBracket",{
+			method : 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			  },
+			body: JSON.stringify({token : localStorage.getItem("next-game-token")})
+		});
+	}
+
+	const randomizeBracket = async () => {
+		console.log("Randomizing bracket");
+		const res = await fetch("/api/randomizeBracket",{
+			method : 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			  },
+			body: JSON.stringify({token : localStorage.getItem("next-game-token")})
+		});
+	}
+
+
+
 	return (
 	<div className='bg-gray-800'>
 		<Navbar>
@@ -67,7 +91,9 @@ const bracket_page = () => {
 		<div className='flex flex-row pt-24 bg-gray-800'>
 			{admin&&
 			<Sidebar>
-				<h1 className={" font-bold text-white p-2 mx-5 text-center border-green-500 border-2"}>You are the admin</h1>
+				<h1 className={"font-bold text-white p-2 mx-5 text-center border-green-500 border-2"}>You are the admin</h1>
+				<Button callback={resetBracket} color='red' size='3xl' text='Reset Bracket'/>
+				<Button callback={randomizeBracket} color='blue' size='3xl' text='Randomize' />
 			</Sidebar>}
 			<div className="flex w-screen min-h-screen md:justify-between md:flex-row flex-col mt-4">
 				<div>
