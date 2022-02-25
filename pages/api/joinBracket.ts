@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { db , admin }  from "../../components/firebase/firebaseAdmin"
 import isEmpty from '../../utils/isEmpty'
+import localToken from '../../types/tokens/localToken'
+import tokenType from "../../types/tokens/tokenType";
 
 export default async function handler(req, res) {
 	if (req.method !== 'POST') {
@@ -27,13 +29,15 @@ export default async function handler(req, res) {
 				docRef.update({
 					players: admin.firestore.FieldValue.arrayUnion(data.username)
 				});
+				const token:localToken = {
+					id : data.id,
+					type: tokenType.Player,
+					username : data.username,
+					admin : false,
+				}
 				res.status(200).json(
 					{
-						token: jwt.sign({
-							id : data.id,
-							username : data.username,
-							admin : false,
-						},process.env.JWT_SECRET),
+						token: jwt.sign(token,process.env.JWT_SECRET),
 					}
 				)
 			}

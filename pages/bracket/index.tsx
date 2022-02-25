@@ -1,22 +1,23 @@
-import db from '../components/firebase/firebaseClient'
+import db from '../../components/firebase/firebaseClient'
 import { useEffect, useState } from 'react'
 import { onSnapshot, doc} from 'firebase/firestore'
-import Column from '../components/bracket/column'
-import Bracket from '../components/bracket/bracket'
-import jwt from "jsonwebtoken";
+import Bracket from '../../components/bracket/bracket'
 import { useRouter } from 'next/router'
-import Navbar from '../components/nav/navbar'
-import Button from '../components/nav/button'
-import Sidebar from '../components/nav/sidebar'
+import Navbar from '../../components/nav/navbar'
+import Button from '../../components/nav/button'
+import Sidebar from '../../components/nav/sidebar'
 
-import { History } from '../types/history'
+import { History } from '../../types/history'
+import localToken from '../../types/tokens/localToken'
+import tokenType from '../../types/tokens/tokenType'
 
 
-const bracket_page = () => {
+const Bracket_page = () => {
 	const [players, setPlayers] = useState<string[]>([]);
 	const [history, setHistory] = useState<History>({});
 	const [roomId, setRoomId] = useState('');
 	const [admin, setAdmin] = useState(false);
+	const [localTokenType, setLocalTokenType] = useState<tokenType>(undefined);
 
 	const router = useRouter();
 
@@ -25,32 +26,35 @@ const bracket_page = () => {
 		if (!token){
 			router.push('/');
 		}
-		const claim = JSON.parse(atob(token.split('.')[1]))
+		const claim:localToken = JSON.parse(atob(token.split('.')[1]))
 		console.log(token)
 		console.log(claim);
+		setRoomId(claim.id);
+		setAdmin(claim.admin);
+		setLocalTokenType(claim.type);
 		return onSnapshot(doc(db,"brackets",claim.id),(snapshot)=>{
 			const data = snapshot.data();
 			console.log(data);
 			if (data){
 				setPlayers(data.players);
 				setHistory(data.history);
-				setRoomId(claim.id);
-				setAdmin(claim.admin);
 			}
 		});
 	}, [])
 
-	console.log(admin);
+	// console.log(admin);
 
 	const leaveBracket = async () =>{
 		console.log("Leaving bracket");
-		const res = await fetch("/api/leaveBracket",{
-			method : 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			  },
-			body: JSON.stringify({token : localStorage.getItem("next-game-token")})
-		});
+		if(localTokenType==tokenType.Player || admin){
+			const res = await fetch("/api/leaveBracket",{
+				method : 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				  },
+				body: JSON.stringify({token : localStorage.getItem("next-game-token")})
+			});
+		}
 		localStorage.removeItem('next-game-token');
 		router.push('/');
 	}
@@ -84,16 +88,21 @@ const bracket_page = () => {
 		<Navbar>
 			<h1 className='text-white text-4xl px-6'>Next game !</h1>
 			<div className='flex flex-row items-center'>
+				<Button callback={()=>navigator.clipboard.writeText(`${window.location.href}/${roomId}`)} color='purple' text='copy link' size='2xl'/>
 				<h1 className='text-gray-800 font-bold text-lg p-2 m-5 bg-white'>{roomId}</h1>
 				<Button callback={leaveBracket} color='red' text='Leave'/>
 			</div>
 		</Navbar>
 		<div className='flex flex-row pt-24 bg-gray-800'>
-			{admin&&
+			{(admin||localTokenType==tokenType.Player)&&
 			<Sidebar>
+				{ admin &&
+				<>
 				<h1 className={"font-bold text-white p-2 mx-5 text-center border-green-500 border-2"}>You are the admin</h1>
 				<Button callback={resetBracket} color='red' size='3xl' text='Reset Bracket'/>
 				<Button callback={randomizeBracket} color='blue' size='3xl' text='Randomize' />
+				</>
+				}
 			</Sidebar>}
 			<div className="flex w-screen min-h-screen md:justify-between md:flex-row flex-col mt-4">
 				<div>
@@ -106,4 +115,4 @@ const bracket_page = () => {
 	)
 }
 
-export default bracket_page;
+export default Bracket_page;
