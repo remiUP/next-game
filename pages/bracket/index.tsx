@@ -8,6 +8,7 @@ import Button from '../../components/nav/button'
 import { ButtonSize, ButtonColor } from '../../components/styles/nav/buttonStyle'
 import Sidebar from '../../components/nav/sidebar'
 import PlayerSeedingTable from '../../components/nav/playerSeedingTable'
+import AddNewPlayer from '../../components/nav/addNewPlayer'
 
 import { History } from '../../types/history'
 import localToken from '../../types/tokens/localToken'
@@ -102,6 +103,7 @@ const Bracket_page = () => {
 				<>
 				<h1 className={"font-bold text-white p-2 mx-5 mb-5 text-center border-green-500 border-2"}>You are the admin</h1>
 				<PlayerSeedingTable players={players}/>
+				<AddNewPlayer players={players}/>
 				<Button callback={randomizeBracket} color={ButtonColor.blue} size={ButtonSize.md}>Randomize</Button>
 				<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md} >Reset Bracket</Button>
 				</>

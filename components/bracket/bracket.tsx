@@ -12,9 +12,9 @@ const getFirstColumn = (players: string[]): Matches => {
 		matches.push([players[i]]);
 	}
 	for (var i = nearest; i < players.length; i++){
-		matches[i-nearest].push(players[i]);
+		matches[2*nearest-i-1].push(players[i]);
 	}
-	return matches
+	return matches.reverse();
 }
 
 const getNextColumn = (previousMatches: Matches, history: History): Matches => {
