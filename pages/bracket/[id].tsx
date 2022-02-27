@@ -17,6 +17,11 @@ const join_url = ({}: Props) => {
 	const [is404, setIs404] = useState<boolean>(false);
 
 	const spectateBracket = async (id:string) => {
+		const token = localStorage.getItem("next-game-token");
+		if (token){
+			router.push('/bracket');
+			return
+		}
 		const docRef = doc(db, "brackets", id);
 		const docSnap = await getDoc(docRef);
 

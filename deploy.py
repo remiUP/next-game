@@ -3,6 +3,7 @@ from paramiko import SSHClient, AutoAddPolicy
 
 commands = [
 		'cd next-game',
+		'npm install',
 		'git pull',
 		'npm run build',
 		'pm2 reload next-game'

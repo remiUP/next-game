@@ -1,17 +1,17 @@
+import {ButtonColor, ButtonSize} from "../styles/nav/buttonStyle";
+
 interface Props {
 	callback: ()=>void,
-	color: string,
-	text: string,
-	size?: string,
-	px?: string,
-	py?: string
+	color: ButtonColor,
+	size: ButtonSize,
+	children: React.ReactNode
 }
 
-const Button: React.FC<Props> = ({callback, color, text, size, px, py}) => {
+const Button: React.FC<Props> = (props) => {
+	const cls:string = props.color + props.size + "mx-2 py-2 px-4 border-b-4 rounded my-5";
 	return (
-		<button onClick={callback} className={`mx-2 bg-${color}-500 hover:bg-${color}-400 
-			text-white text-${size || '4xl'} py-${py || '2'} px-${px || '4'} border-b-4 border-${color}-700 hover:border-${color}-500 rounded my-5 z-50`}>
-				{text}
+		<button onClick={props.callback} className={cls}>
+				{props.children}
 		</button>
 	)
 }

@@ -5,7 +5,9 @@ import Bracket from '../../components/bracket/bracket'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/nav/navbar'
 import Button from '../../components/nav/button'
+import { ButtonSize, ButtonColor } from '../../components/styles/nav/buttonStyle'
 import Sidebar from '../../components/nav/sidebar'
+import PlayerSeedingTable from '../../components/nav/playerSeedingTable'
 
 import { History } from '../../types/history'
 import localToken from '../../types/tokens/localToken'
@@ -87,10 +89,10 @@ const Bracket_page = () => {
 	<div className='bg-gray-800'>
 		<Navbar>
 			<h1 className='text-white text-4xl px-6'>Next game !</h1>
-			<div className='flex flex-row items-center'>
-				<Button callback={()=>navigator.clipboard.writeText(`${window.location.href}/${roomId}`)} color='purple' text='copy link' size='2xl'/>
+			<div className='flex flex-row items-center mr-5'>
+				<Button callback={()=>navigator.clipboard.writeText(`${window.location.href}/${roomId}`)} color={ButtonColor.purple} size={ButtonSize.sm}>copy link</Button>
 				<h1 className='text-gray-800 font-bold text-lg p-2 m-5 bg-white'>{roomId}</h1>
-				<Button callback={leaveBracket} color='red' text='Leave'/>
+				<Button callback={leaveBracket}  color={ButtonColor.red} size={ButtonSize.lg}>Leave</Button>
 			</div>
 		</Navbar>
 		<div className='flex flex-row pt-24 bg-gray-800'>
@@ -98,9 +100,11 @@ const Bracket_page = () => {
 			<Sidebar>
 				{ admin &&
 				<>
-				<h1 className={"font-bold text-white p-2 mx-5 text-center border-green-500 border-2"}>You are the admin</h1>
-				<Button callback={resetBracket} color='red' size='3xl' text='Reset Bracket'/>
-				<Button callback={randomizeBracket} color='blue' size='3xl' text='Randomize' />
+				<h1 className={"font-bold text-white p-2 mx-5 mb-5 text-center border-green-500 border-2"}>You are the admin</h1>
+				<PlayerSeedingTable players={players}/>
+				<Button callback={randomizeBracket} color={ButtonColor.blue} size={ButtonSize.md}>Randomize</Button>
+				<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md} >Reset Bracket</Button>
+				{/* TODO: Tailwind purges usuned styling classes -> with string interpolation, bg-red is not included */}
 				</>
 				}
 			</Sidebar>}
