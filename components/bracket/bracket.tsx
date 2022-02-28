@@ -2,19 +2,38 @@ import db from '../firebase/firebaseClient'
 import { onSnapshot, doc} from 'firebase/firestore'
 import Column from './column'
 import { Matches } from '../../types/matches'
+import { Match } from '../../types/match'
 import { History } from '../../types/history'
 
 
 const getFirstColumn = (players: string[]): Matches => {
-	const nearest: number = Math.pow(2,Math.ceil(Math.log2(players.length)))/2;
 	const matches: Matches = [];
-	for (var i = 0; i < nearest; i++){
-		matches.push([players[i]]);
+	if(!players.length)return []
+	const branch = (parent,stage) => [parent, Math.pow(2,stage)-parent-1];
+	const stage = (depth:number):number[] => {
+		// console.log(depth);
+		if(depth==0)return [0];
+		var res = [];
+		for(const i of stage(depth-1)){
+			res = res.concat(branch(i,depth-1));
+		}
+		return res;
 	}
-	for (var i = nearest; i < players.length; i++){
-		matches[2*nearest-i-1].push(players[i]);
+	const apply = (ids:number[], players:string[]):string[] => {
+		return ids.map((id)=>id<players.length ? players[id] : null );
 	}
-	return matches.reverse();
+	const group = (players:string[]):Matches =>{
+		var matches: Matches = [];
+		for(var i=0; i < Math.floor(players.length/2); i++){
+			var match: Match = [players[2*i],players[2*i+1]]//.filter((n) => {return n!==null})
+			matches.push(match);
+		}
+		return matches;
+	}
+	const stg = Math.floor(Math.log2(players.length)%1 === 0 ? Math.log2(players.length) : Math.log2(players.length)+1);
+	console.log(players);
+	console.log(stg);
+	return group(apply(stage(stg),players));
 }
 
 const getNextColumn = (previousMatches: Matches, history: History): Matches => {
