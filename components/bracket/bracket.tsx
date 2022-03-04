@@ -8,14 +8,14 @@ import { History } from '../../types/history'
 
 const getFirstColumn = (players: string[]): Matches => {
 	const matches: Matches = [];
-	if(!players.length)return []
+	if(!players.length) return [];
 	const branch = (parent,stage) => [parent, Math.pow(2,stage)-parent-1];
 	const stage = (depth:number):number[] => {
 		// console.log(depth);
 		if(depth==0)return [0];
 		var res = [];
 		for(const i of stage(depth-1)){
-			res = res.concat(branch(i,depth-1));
+			res = res.concat(branch(i,depth));
 		}
 		return res;
 	}
@@ -25,14 +25,13 @@ const getFirstColumn = (players: string[]): Matches => {
 	const group = (players:string[]):Matches =>{
 		var matches: Matches = [];
 		for(var i=0; i < Math.floor(players.length/2); i++){
-			var match: Match = [players[2*i],players[2*i+1]]//.filter((n) => {return n!==null})
+			var match: Match = [players[2*i],players[2*i+1]].filter((n) => {return n!==null});
 			matches.push(match);
 		}
-		return matches;
+		console.log(matches);
+		return matches.reverse();//.sort((a,b)=>b.length-a.length);
 	}
 	const stg = Math.floor(Math.log2(players.length)%1 === 0 ? Math.log2(players.length) : Math.log2(players.length)+1);
-	console.log(players);
-	console.log(stg);
 	return group(apply(stage(stg),players));
 }
 
