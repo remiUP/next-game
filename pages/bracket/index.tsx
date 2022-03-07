@@ -105,7 +105,7 @@ const Bracket_page = () => {
 				<PlayerSeedingTable players={players}/>
 				<AddNewPlayer players={players}/>
 				<Button callback={randomizeBracket} color={ButtonColor.blue} size={ButtonSize.md}>Randomize</Button>
-				<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md} >Reset Bracket</Button>
+				<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md}>Reset Bracket</Button>
 				</>
 				}
 			</Sidebar>}
