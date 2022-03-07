@@ -24,7 +24,7 @@ const Column: React.FC<Props> = ({matches, history}) => {
 
 
 	return (
-		<div className='flex flex-row' ref={listRef}>
+		<div className='flex flex-row h-full' ref={listRef}>
 			<div className="flex flex-col w-60 h-full justify-around items-center">
 				{matches.map((match, index)=> {
 					let win :number = 0;
@@ -50,8 +50,8 @@ const Column: React.FC<Props> = ({matches, history}) => {
 						return <Match players={match} win={win}/>
 				})}
 			</div>
-			<div className='hidden md:flex flex-col w-4 h-full justify-around'>
-				{Array.apply(null, Array(Math.floor(matches.length/2))).map((match,index) =>{
+			<div className='hidden md:flex flex-col w-4 justify-around'>
+				{Array.apply(null, Array(Math.floor(matches.length/2))).map((match,index: number) =>{
 					const height: string = (columnHeight/(2*matches.length)).toString()
 					return <div>
 						<div className={`w-6`} style={{height: height + 'px'}}>

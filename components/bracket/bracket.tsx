@@ -83,7 +83,7 @@ const Bracket: React.FC<Props>= ({players, history}) => {
 	const firstMatches: Matches = getFirstColumn(players);
 	const numberColumn: number = Math.ceil(Math.log2(players.length))-1;
 	var previousMatches: Matches = firstMatches;
-	return <div className="flex flex-col md:flex-row h-full">
+	return <div className="flex flex-col md:flex-row h-full w-full overflow-scroll">
 		<Column matches={firstMatches} history={history}/>
 		{numberColumn < 0 ? "" : [...Array(numberColumn)].map(() => {
 			previousMatches = getNextColumn(previousMatches,history);
