@@ -98,17 +98,19 @@ const Bracket_page = () => {
 		</Navbar>
 		<div className='flex flex-row pt-24 bg-gray-800 h-full'>
 			{(admin||localTokenType==tokenType.Player)&&
-			<Sidebar>
-				{ admin &&
-				<>
-				<h1 className={"font-bold text-white p-2 mx-5 mb-5 text-center border-green-500 border-2"}>You are the admin</h1>
-				<PlayerSeedingTable players={players}/>
-				<AddNewPlayer players={players}/>
-				<Button callback={randomizeBracket} color={ButtonColor.blue} size={ButtonSize.md}>Randomize</Button>
-				<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md}>Reset Bracket</Button>
-				</>
-				}
-			</Sidebar>}
+			<>
+				<Sidebar>
+					{ admin &&
+					<>
+					<h1 className={"font-bold text-white p-2 mx-5 mb-5 text-center border-green-500 border-2"}>You are the admin</h1>
+					<PlayerSeedingTable players={players}/>
+					<AddNewPlayer players={players}/>
+					<Button callback={randomizeBracket} color={ButtonColor.blue} size={ButtonSize.md}>Randomize</Button>
+					<Button callback={resetBracket} color={ButtonColor.red} size={ButtonSize.md}>Reset Bracket</Button>
+					</>
+					}
+				</Sidebar>
+			</>}
 			<Bracket players={players} history={history}/>
 		</div>
 		
